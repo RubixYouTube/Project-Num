@@ -1,0 +1,67 @@
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <script src='https://cdn.jsdelivr.net/npm/bignumber.js@9.1.2/bignumber.min.js'></script>
+</head>
+<body class="bg-gray-800 text-white h-screen flex flex-col justify-between">
+    <div class="flex justify-between items-start p-4">
+        <div class="border-2 border-white p-2">
+            <h1 class="text-6xl">Project Num</h1>
+        </div>
+        <div class="border-2 border-green-500 p-2">
+            <div class="flex flex-col items-end">
+                <span class="text-yellow-400">JS</span>
+                <span class="text-blue-400">On Github!</span>
+                <span class="text-green-400">Copyable</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center items-center flex-grow">
+        <span id="number" class="text-9xl">0</span>
+    </div>
+    <div class="p-4 text-left">
+        <p class="text-sm">*May Expand Later</p>
+        <p class="text-lg">Limit: 10^10^65536</p>
+    </div>
+
+    <script>
+        const limit = new BigNumber(10).pow(new BigNumber(10).pow(65536));
+        let number = new BigNumber(0);
+        let numIncrease = new BigNumber(1);
+        let expoGain = new BigNumber(1.1);
+        let expoGain2 = new BigNumber(1.1);
+
+        function formatNumber(num) {
+            if (num.isGreaterThanOrEqualTo(new BigNumber(10).pow(1000000))) {
+                const numLength = num.toFixed().length;
+                const numStr = num.toExponential(1).replace('e+', ' × 10^');
+                return `10^${numStr} × 10^${numLength}`;
+            } else if (num.isGreaterThanOrEqualTo(new BigNumber(10).pow(6))) {
+                const numStr = num.toExponential(1).replace('e+', ' × 10^');
+                return numStr;
+            } else {
+                return num.toFixed(0);
+            }
+        }
+
+        function updateNumber() {
+            if (number.isGreaterThanOrEqualTo(limit)) {
+                number = limit;
+                document.getElementById('number').innerText = `10^10^65536`;
+                return;
+            }
+
+            number = number.plus(numIncrease);
+            numIncrease = numIncrease.times(expoGain);
+            if (number.isGreaterThanOrEqualTo(new BigNumber(1000000))) {
+                expoGain = expoGain.times(expoGain2);
+            }
+
+            document.getElementById('number').innerText = formatNumber(number);
+        }
+
+        setInterval(updateNumber, 1000 / 60);
+    </script>
+</body>
+</html>
