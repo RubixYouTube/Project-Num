@@ -34,11 +34,10 @@
 
         function formatNumber(num) {
             if (num.isGreaterThanOrEqualTo(new BigNumber(10).pow(1000000))) {
-                const numLength = num.toFixed().length;
-                const numStr = num.toExponential(1).replace('e+', ' × 10^');
-                return `10^${numStr} × 10^${numLength}`;
+                const numStr = num.toExponential(1).replace('e+', ' × 10^').replace('e-', ' × 10^-');
+                return numStr;
             } else if (num.isGreaterThanOrEqualTo(new BigNumber(10).pow(6))) {
-                const numStr = num.toExponential(1).replace('e+', ' × 10^');
+                const numStr = num.toExponential(1).replace('e+', ' × 10^').replace('e-', ' × 10^-');
                 return numStr;
             } else {
                 return num.toFixed(0);
@@ -61,7 +60,7 @@
             document.getElementById('number').innerText = formatNumber(number);
         }
 
-        setInterval(updateNumber, 1000 / 60);
+        setInterval(updateNumber, 1000 / 12); // Updating at 12 FPS (~83ms)
     </script>
 </body>
 </html>
