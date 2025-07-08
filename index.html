@@ -29,14 +29,14 @@
         const limit = new BigNumber(10).pow(new BigNumber(10).pow(65536));
         let number = new BigNumber(0);
         let numIncrease = new BigNumber(1);
-        let expoGain = new BigNumber(1.1);
-        let expoGain2 = new BigNumber(1.1);
+        let expoGain = new BigNumber(1.5);
+        let expoGain2 = new BigNumber(1.5);
         let lastUpdateTime = 0;
 
         // Throttle DOM updates to avoid frequent render changes
         function shouldUpdateDOM(currentTime) {
-            // Only update DOM every 500ms (adjust as needed)
-            return currentTime - lastUpdateTime > 500;
+            // Only update DOM every 200ms (adjust as needed)
+            return currentTime - lastUpdateTime > 200;
         }
 
         function formatNumber(num) {
